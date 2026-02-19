@@ -2,22 +2,16 @@ import { useState, useRef, useCallback } from 'react';
 import { extractRulesFromImage } from '../parser/rules-extractor';
 
 interface Props {
-  apiKey: string;
   onRulesExtracted: (yamlDocs: string[]) => void;
 }
 
-export default function RulesImageUpload({ apiKey, onRulesExtracted }: Props) {
+export default function RulesImageUpload({ onRulesExtracted }: Props) {
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [dragOver, setDragOver] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const processFile = useCallback(async (file: File) => {
-    if (!apiKey) {
-      setError('Please set your Claude API key in the Analysis tab first.');
-      return;
-    }
-
     const validTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
     if (!validTypes.includes(file.type)) {
       setError('Please upload a JPEG, PNG, WebP, or GIF image.');
@@ -29,7 +23,7 @@ export default function RulesImageUpload({ apiKey, onRulesExtracted }: Props) {
 
     try {
       const base64 = await fileToBase64(file);
-      const yamlDocs = await extractRulesFromImage(apiKey, base64, file.type);
+      const yamlDocs = await extractRulesFromImage(base64, file.type);
       onRulesExtracted(yamlDocs);
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
@@ -37,7 +31,7 @@ export default function RulesImageUpload({ apiKey, onRulesExtracted }: Props) {
       setIsProcessing(false);
       if (inputRef.current) inputRef.current.value = '';
     }
-  }, [apiKey, onRulesExtracted]);
+  }, [onRulesExtracted]);
 
   const handleDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();

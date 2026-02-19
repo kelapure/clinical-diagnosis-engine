@@ -115,15 +115,12 @@ Rules:
 - For Framingham criteria, look for both the clinical term and layperson descriptions.`;
 
 export async function extractClinicalData(
-  apiKey: string,
   documentText: string,
 ): Promise<ClinicalData> {
   const response = await fetch(ANTHROPIC_API_URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'x-api-key': apiKey,
-      'anthropic-version': '2023-06-01',
     },
     body: JSON.stringify({
       model: 'claude-sonnet-4-20250514',

@@ -25,7 +25,6 @@ groups:
 `;
 
 interface Props {
-  apiKey: string;
   entries: RuleEntry[];
   onUpdate: (id: string, yaml: string) => void;
   onRemove: (id: string) => void;
@@ -33,7 +32,7 @@ interface Props {
   onReset: () => void;
 }
 
-export default function RulesEditorPanel({ apiKey, entries, onUpdate, onRemove, onAdd, onReset }: Props) {
+export default function RulesEditorPanel({ entries, onUpdate, onRemove, onAdd, onReset }: Props) {
   const [showUpload, setShowUpload] = useState(false);
   const [confirmReset, setConfirmReset] = useState(false);
 
@@ -95,7 +94,6 @@ export default function RulesEditorPanel({ apiKey, entries, onUpdate, onRemove, 
       {/* Image upload area */}
       {showUpload && (
         <RulesImageUpload
-          apiKey={apiKey}
           onRulesExtracted={handleRulesExtracted}
         />
       )}

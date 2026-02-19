@@ -2,10 +2,10 @@ import { useState, useCallback, useRef } from 'react';
 
 interface Props {
   onFile: (file: File) => void;
-  disabled: boolean;
+  disabled?: boolean;
 }
 
-export default function DocumentUpload({ onFile, disabled }: Props) {
+export default function DocumentUpload({ onFile, disabled = false }: Props) {
   const [isDragOver, setIsDragOver] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 

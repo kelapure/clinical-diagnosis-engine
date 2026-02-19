@@ -130,7 +130,6 @@ Each group must have a unique id (lowercase, underscores).
 The paths formula must reference group ids using AND / OR with optional parentheses.`;
 
 export async function extractRulesFromImage(
-  apiKey: string,
   imageBase64: string,
   mediaType: string,
 ): Promise<string[]> {
@@ -138,8 +137,6 @@ export async function extractRulesFromImage(
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'x-api-key': apiKey,
-      'anthropic-version': '2023-06-01',
     },
     body: JSON.stringify({
       model: 'claude-sonnet-4-20250514',

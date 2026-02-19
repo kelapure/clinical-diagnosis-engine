@@ -6,7 +6,6 @@ import { useRulesManager } from './hooks/useRulesManager';
 import { extractClinicalData } from './parser/ai-extractor';
 import Header from './components/Header';
 import type { AppTab } from './components/Header';
-import ApiKeyInput from './components/ApiKeyInput';
 import DocumentUpload from './components/DocumentUpload';
 import ExtractedDataPanel from './components/ExtractedDataPanel';
 import DiagnosisResultsPanel from './components/DiagnosisResultsPanel';
@@ -16,7 +15,6 @@ import RulesEditorPanel from './components/RulesEditorPanel';
 type Phase = 'upload' | 'processing' | 'review';
 
 export default function App() {
-  const [apiKey, setApiKey] = useState('');
   const [phase, setPhase] = useState<Phase>('upload');
   const [activeTab, setActiveTab] = useState<AppTab>('analysis');
   const [clinicalData, setClinicalData] = useState<ClinicalData | null>(null);
@@ -25,10 +23,6 @@ export default function App() {
   const { file, rawText, isExtracting, error: uploadError, handleFile, reset } = useDocumentUpload();
   const { entries, compiledRules, updateRule, removeRule, addRule, resetToDefaults } = useRulesManager();
   const diagnosisResults = useRulesEvaluation(compiledRules, clinicalData);
-
-  const handleApiKey = useCallback((key: string) => {
-    setApiKey(key);
-  }, []);
 
   const handleFileUpload = useCallback(
     async (f: File) => {
@@ -41,18 +35,18 @@ export default function App() {
 
   // Trigger AI extraction once raw text is available
   const handleAnalyze = useCallback(async () => {
-    if (!rawText || !apiKey) return;
+    if (!rawText) return;
     setPhase('processing');
     setAiError(null);
     try {
-      const data = await extractClinicalData(apiKey, rawText);
+      const data = await extractClinicalData(rawText);
       setClinicalData(data);
       setPhase('review');
     } catch (err) {
       setAiError(err instanceof Error ? err.message : String(err));
       setPhase('upload');
     }
-  }, [rawText, apiKey]);
+  }, [rawText]);
 
   const handleReset = useCallback(() => {
     reset();
@@ -72,15 +66,7 @@ export default function App() {
             {/* Upload Phase */}
             {phase === 'upload' && (
               <div className="max-w-2xl mx-auto space-y-6">
-                <ApiKeyInput onApiKey={handleApiKey} />
-
-                <DocumentUpload onFile={handleFileUpload} disabled={!apiKey} />
-
-                {!apiKey && (
-                  <p className="text-center text-sm text-clinical-amber">
-                    Enter your Claude API key above to enable document analysis
-                  </p>
-                )}
+                <DocumentUpload onFile={handleFileUpload} />
 
                 {isExtracting && (
                   <div className="text-center py-4">
@@ -163,7 +149,6 @@ export default function App() {
         {/* ── Rules Editor Tab ── */}
         {activeTab === 'rules' && (
           <RulesEditorPanel
-            apiKey={apiKey}
             entries={entries}
             onUpdate={updateRule}
             onRemove={removeRule}
