@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-const ANTHROPIC_BASE = 'https://api.anthropic.com';
+const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') {
@@ -12,13 +12,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(500).json({ error: 'ANTHROPIC_API_KEY is not configured' });
   }
 
-  // Reconstruct the Anthropic path from the catch-all segments
-  const segments = req.query.path;
-  const subPath = Array.isArray(segments) ? segments.join('/') : segments ?? '';
-  const url = `${ANTHROPIC_BASE}/${subPath}`;
-
   try {
-    const response = await fetch(url, {
+    const response = await fetch(ANTHROPIC_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -31,7 +26,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const data = await response.text();
     res.status(response.status);
 
-    // Forward relevant headers
     const contentType = response.headers.get('content-type');
     if (contentType) {
       res.setHeader('Content-Type', contentType);
