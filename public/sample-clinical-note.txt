@@ -1,0 +1,61 @@
+ADMISSION NOTE — Medical ICU
+Date: 02/17/2026
+Patient: J.D., 68yo M
+
+CHIEF COMPLAINT: Fever
+
+HISTORY OF PRESENT ILLNESS:
+68-year-old male with history of CKD stage 3 (baseline Cr 1.4 mg/dL) and CHF presented to ED with 2-day history of fever chils, nausea,vomiting, diarrhea. 
+pt reports eating stale food 3 days ago. was roast beef. pt reports abdminal pain with nausea, vomiting, and diarrhea. pt also reports, cough, shortness of breaeth, bilateral pitting edema. 
+pt reports chest pain since today morning, which is unrelieved despite taking nitroglycerine in ER.
+VITAL SIGNS:
+- Temperature: 100.8°F (39.3°C)
+- Heart Rate: 106 BPM
+- Respiratory Rate: 22 breaths/min
+- Blood Pressure: 108/52 mmHg
+- SpO2: 86% on room air
+
+LABORATORY VALUES:
+- WBC: 13.4 K/µL (elevated)
+- Hemoglobin: 10.2 g/dL
+- Platelets: 165 K/µL
+- Creatinine: 1.45 mg/dl
+- BUN: 42 mg/dL
+- Lactate: 2.2 mmol/L
+- CK: 380 U/L
+- Troponin: 0.04 ng/mL
+- Procalcitonin: 2.7 ng/mL
+- Urine sodium 56
+--urine creatinine 312
+--BNP 408
+--Troponin (high sensitivity) 128 at 12pm
+-- troponin (high sensitivity) 246 at 2pm
+
+URINALYSIS:
+- specific gravity 1.025
+- Protein: 1+
+- WBC: 5-10/HPF
+
+IMAGING:
+- CXR: bilateral infiltrates , right small pleural effusion.
+- CT abdomen pelvis with contrast: bilateral infiltrates in lungs, small left effusion, large bowel wall thickening, fluid filled loops of transverse colon
+PHYSICAL EXAM:
+- General: Ill-appearing, oriented x3
+- HEENT: Dry mucous membranes
+- Neck: JVD not appreciated
+- Lungs: bilaterally diminished
+- Heart: Tachycardic, regular rhythm, no murmurs, S3 gallop
+- Abdomen: Soft, non-tender, no hepatomegaly
+- Extremities: 3+ pitting peripheral edema bilateral lower extremities
+
+MEDICATIONS ADMINISTERED:
+- Vancomycin 1g IV (started in ED)
+- Piperacillin-Tazobactam 4.5g IV q6h
+- Normal saline 30 mL/kg bolus x1
+- 
+
+ASSESSMENT & PLAN:
+1. gastroenteritis
+2. shortness of breaths
+3. respiratory insufficiency
+4. elevated BNP

@@ -1,0 +1,64 @@
+name: Acute CHF
+
+paths:
+  - formula: "framingham"
+    summary: "Acute CHF criteria met: ≥2 Framingham criteria present."
+  - formula: "framingham_plus"
+    summary: "Acute CHF criteria met: 1 Framingham + supporting criteria."
+
+absent_summary: "Acute CHF criteria not met."
+indeterminate_summary: "Insufficient data to determine CHF status."
+
+framingham_fields:
+  major: &framingham_major
+    - framingham.paroxysmalNocturnalDyspnea
+    - framingham.neckVeinDistention
+    - framingham.rales
+    - framingham.cardiomegaly
+    - framingham.acutePulmonaryEdema
+    - framingham.s3Gallop
+    - framingham.hepatojugularReflux
+    - framingham.weightLossOnDiuretics
+  minor: &framingham_minor
+    - framingham.ankleEdema
+    - framingham.nocturnalCough
+    - framingham.dyspneaOnExertion
+    - framingham.hepatomegaly
+    - framingham.pleuralEffusion
+    - framingham.tachycardia
+
+groups:
+  - id: framingham
+    name: "Framingham Criteria (≥2)"
+    logic: ANY
+    criteria:
+      - name: "Framingham Criteria Met (≥2 major OR 1 major + 2 minor)"
+        type: count_fields
+        field_groups:
+          major: *framingham_major
+          minor: *framingham_minor
+        met_when: "major >= 2 OR (major >= 1 AND minor >= 2)"
+        detail_template: "{major} major, {minor} minor criteria present"
+
+  - id: framingham_plus
+    name: "1 Framingham + Supporting"
+    logic: ALL
+    criteria:
+      - name: "At Least 1 Framingham Criterion"
+        type: count_fields
+        field_groups:
+          major: *framingham_major
+          minor: *framingham_minor
+        met_when: "total >= 1"
+        detail_template: "{major} major + {minor} minor Framingham criteria"
+
+      - name: "Diuretic Given + LVEDP > 19"
+        type: all_of
+        checks:
+          - field: medications.diureticsGiven
+            operator: is_true
+            label: Diuretic
+          - field: labs.lvedp
+            operator: ">"
+            value: 19
+            unit: mmHg

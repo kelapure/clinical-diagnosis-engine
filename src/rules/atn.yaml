@@ -1,0 +1,75 @@
+name: "ATN (Acute Tubular Necrosis)"
+
+paths:
+  - formula: "creatinine AND cause"
+    summary: "ATN criteria met: creatinine elevation with identifiable cause."
+  - formula: "urine"
+    summary: "ATN criteria met: FENa > 2% or muddy brown casts present."
+
+absent_summary: "ATN criteria not met."
+indeterminate_summary: "Insufficient data to determine ATN status."
+
+groups:
+  - id: creatinine
+    name: "Creatinine Rise"
+    logic: ANY
+    criteria:
+      - name: "Creatinine rise > 0.3 mg/dL in 48h"
+        type: delta
+        fields: [labs.creatinine, labs.creatinine48hAgo]
+        operator: ">"
+        value: 0.3
+        unit: "mg/dL"
+
+      - name: "Creatinine ≥ 1.5× baseline"
+        type: ratio
+        fields: [labs.creatinine, labs.creatinineBaseline]
+        operator: ">="
+        value: 1.5
+
+  - id: cause
+    name: "Cause / Risk Factor"
+    logic: ANY
+    criteria:
+      - name: "Hypotension (SBP < 90)"
+        field: vitals.systolicBP
+        operator: "<"
+        value: 90
+        unit: mmHg
+
+      - name: "Hypotension (MAP < 65)"
+        field: vitals.meanArterialPressure
+        operator: "<"
+        value: 65
+        unit: mmHg
+
+      - name: "NSAID Use"
+        field: medications.nsaidUse
+        operator: is_true
+        label: NSAID
+
+      - name: "Nephrotoxic Medication"
+        field: medications.nephrotoxicMedication
+        operator: is_true
+        label: Nephrotoxin
+
+      - name: "Rhabdomyolysis (CK > 2000)"
+        field: labs.ck
+        operator: ">"
+        value: 2000
+        unit: "U/L"
+
+  - id: urine
+    name: "Urine / FENa Findings"
+    logic: ANY
+    criteria:
+      - name: "FENa > 2%"
+        field: labs.fena
+        operator: ">"
+        value: 2
+        unit: "%"
+
+      - name: "Muddy Brown Casts"
+        field: urine.muddyBrownCasts
+        operator: is_true
+        label: "Muddy brown casts"

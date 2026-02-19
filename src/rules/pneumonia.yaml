@@ -1,0 +1,63 @@
+name: Pneumonia
+
+paths:
+  - formula: "symptoms AND imaging"
+    summary: "Pneumonia criteria met: ≥2 symptoms + positive imaging."
+
+absent_summary: "Pneumonia criteria not met."
+indeterminate_summary: "Insufficient data to determine pneumonia status."
+
+groups:
+  - id: symptoms
+    name: "Symptoms (≥2)"
+    logic: AT_LEAST_N
+    required: 2
+    criteria:
+      - name: "Shortness of Breath"
+        field: symptoms.shortnessOfBreath
+        operator: is_true
+        label: SOB
+
+      - name: "Cough"
+        field: symptoms.cough
+        operator: is_true
+        label: Cough
+
+      - name: "Chest Pain"
+        field: symptoms.chestPain
+        operator: is_true
+        label: "Chest pain"
+
+      - name: "Cough + Fever"
+        type: all_of
+        checks:
+          - field: symptoms.cough
+            operator: is_true
+            label: Cough
+          - field: symptoms.fever
+            operator: is_true
+            label: Fever
+
+      - name: "Change in Mental Status"
+        field: symptoms.changeInMentalStatus
+        operator: is_true
+        label: "Δ Mental status"
+
+  - id: imaging
+    name: "Imaging Evidence"
+    logic: ANY
+    criteria:
+      - name: "Pulmonary Infiltrate"
+        field: imaging.pulmonaryInfiltrate
+        operator: is_true
+        label: Infiltrate
+
+      - name: "Ground Glass Opacity"
+        field: imaging.groundGlassOpacity
+        operator: is_true
+        label: GGO
+
+      - name: "Consolidation"
+        field: imaging.consolidation
+        operator: is_true
+        label: Consolidation

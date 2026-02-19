@@ -1,0 +1,81 @@
+name: Sepsis
+
+paths:
+  - formula: "(sirs OR sofa) AND infection"
+    summary: "Sepsis criteria met: SIRS/SOFA positive with evidence of infection."
+
+absent_summary: "Sepsis criteria not met."
+indeterminate_summary: "Insufficient data to determine sepsis status."
+
+groups:
+  - id: sirs
+    name: "SIRS Criteria (≥3 of 4)"
+    logic: AT_LEAST_N
+    required: 3
+    concept_groups: true
+    criteria:
+      - name: "Heart Rate > 90 BPM"
+        field: vitals.heartRate
+        operator: ">"
+        value: 90
+        unit: BPM
+        concept: heartRate
+
+      - name: "Respiratory Rate > 20"
+        field: vitals.respiratoryRate
+        operator: ">"
+        value: 20
+        unit: "breaths/min"
+        concept: respiratoryRate
+
+      - name: "Temperature > 100.3°F"
+        field: vitals.temperatureF
+        operator: ">"
+        value: 100.3
+        unit: "°F"
+        concept: temperature
+
+      - name: "Temperature < 95°F"
+        field: vitals.temperatureF
+        operator: "<"
+        value: 95
+        unit: "°F"
+        concept: temperature
+
+      - name: "WBC > 12K"
+        field: labs.wbc
+        operator: ">"
+        value: 12
+        unit: "K/µL"
+        concept: wbc
+
+      - name: "WBC < 4K"
+        field: labs.wbc
+        operator: "<"
+        value: 4
+        unit: "K/µL"
+        concept: wbc
+
+  - id: sofa
+    name: "SOFA Score ≥ 2"
+    logic: ANY
+    criteria:
+      - name: "SOFA Score ≥ 2"
+        field: labs.sofaScore
+        operator: ">="
+        value: 2
+        label: SOFA
+
+  - id: infection
+    name: "Evidence of Infection"
+    logic: ANY
+    criteria:
+      - name: "IV Antibiotics"
+        field: medications.ivAntibiotics
+        operator: is_true
+        label: "IV antibiotics"
+
+      - name: "Oral Antibiotics"
+        field: medications.oralAntibiotics
+        operator: is_true
+        label: "Oral antibiotics"

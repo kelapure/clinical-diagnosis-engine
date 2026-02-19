@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+@theme {
+  --color-clinical-red: #dc2626;
+  --color-clinical-green: #16a34a;
+  --color-clinical-amber: #d97706;
+  --color-clinical-blue: #2563eb;
+  --color-clinical-navy: #1e293b;
+  --color-clinical-slate: #475569;
+  --color-clinical-light: #f8fafc;
+  --color-clinical-border: #e2e8f0;
+}
